@@ -11,10 +11,9 @@ export default function SignInPage() {
                 <StyledButton disabled={false} >Entrar</StyledButton>
             </StyledForm>
 
-            <StyledLink to="/singup">
+            <StyledLink to="/signup">
                 Não tem uma conta ainda? Cadastre-se!
             </StyledLink>
-
         </CONTAINER>
     )
 }
@@ -43,7 +42,6 @@ const StyledInput = styled.input`
     line-height: 25px;
 
 `
-
 const StyledButton = styled.button`
     width: 300px;
     height:45px;
@@ -59,7 +57,6 @@ const StyledButton = styled.button`
     background: #52B6FF;
     color: #FFFFFF;
 `
-
 const StyledLink = styled(Link)`
     font-size: 14px;
     line-height: 17px;
