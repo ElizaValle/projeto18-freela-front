@@ -10,7 +10,8 @@ export default function SignUpPage() {
         stateId: "",
         cityId: "",
         email: "",
-        password: ""
+        password: "",
+        confirmPassword: ""
     })
     const navigate = useNavigate()
 
@@ -23,10 +24,10 @@ export default function SignUpPage() {
         
         apiAuth.signUp(form)
             .then(res => {
+                setForm(res.data)
                 navigate("/")
-                console.log(form)
             })
-            .catch(err => alert(err))
+            .catch(err => alert(err.response.data))
     }
 
     return (
@@ -86,9 +87,11 @@ export default function SignUpPage() {
                     disabled={false} 
                 />
                 <StyledInput 
-                    name="password"
+                    name="confirmPassword"
                     placeholder="confirme senha" 
                     type="password"
+                    value={form.confirmPassword}
+                    onChange={handleForm}
                     required
                     disabled={false} 
                 />

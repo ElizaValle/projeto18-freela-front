@@ -18,13 +18,15 @@ export default function SignInPage() {
         
         apiAuth.signIn(form)
             .then(res => {
-                console.log(form)
                 const { id, name, token } = res.data 
                 setUser({ id, name, token })
                 localStorage.setItem("user", JSON.stringify({ id, name, token }))
+                setForm(res.data)
                 navigate("/home")
             })
-            .catch(err => alert(err.response))
+            .catch(err => {
+                const errorMessage = err.response?.data?.message || err.message
+                alert(errorMessage)})
     }
     
     return (
