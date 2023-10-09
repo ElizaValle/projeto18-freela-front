@@ -1,28 +1,108 @@
-import { Link } from "react-router-dom"
+import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
+import apiAuth from "../services/apiAuth"
 
 export default function SignUpPage() {
+    const [form, setForm] = useState({
+        name: "",
+        phone: "",
+        stateId: "",
+        cityId: "",
+        email: "",
+        password: ""
+    })
+    const navigate = useNavigate()
+
+    function handleForm(e) {
+        setForm({ ...form, [e.target.name]: e.target.value })
+    }
+
+    function handleSignUp(e) {
+        e.preventDefault()
+        
+        apiAuth.signUp(form)
+            .then(res => {
+                navigate("/")
+                console.log(form)
+            })
+            .catch(err => alert(err))
+    }
+
     return (
-        <CONTAINER>
-            <StyledForm>
-                <StyledInput placeholder="nome" disabled={false} />
-                <StyledInput placeholder="telefone" disabled={false} />
-                <StyledInput placeholder="estado" disabled={false} />
-                <StyledInput placeholder="cidade" disabled={false} />
-                <StyledInput placeholder="email" disabled={false} />
-                <StyledInput placeholder="senha" disabled={false} />
-                <StyledInput placeholder="confirme senha" disabled={false} />
-                <StyledButton disabled={false} >Cadastrar</StyledButton>
+        <Container>
+            <StyledForm onSubmit={handleSignUp}>
+                <StyledInput
+                    name="name" 
+                    placeholder="nome"
+                    type="text"
+                    value={form.name}
+                    onChange={handleForm}
+                    required
+                    disabled={false} 
+                />
+                <StyledInput 
+                    name="phone"
+                    placeholder="telefone"
+                    type="number" 
+                    value={form.phone}
+                    onChange={handleForm}
+                    required
+                    disabled={false} 
+                />
+                <StyledInput 
+                    name="stateId"
+                    placeholder="estado"
+                    type="text"
+                    value={form.stateId} 
+                    onChange={handleForm}
+                    required
+                    disabled={false} 
+                />
+                <StyledInput 
+                    name="cityId"
+                    placeholder="cidade" 
+                    value={form.cityId}
+                    onChange={handleForm}
+                    required
+                    disabled={false} 
+                />
+                <StyledInput 
+                    name="email"
+                    placeholder="email" 
+                    type="email"
+                    value={form.email}
+                    onChange={handleForm}
+                    required
+                    disabled={false} 
+                />
+                <StyledInput 
+                    name="password"
+                    placeholder="senha" 
+                    type="password"
+                    value={form.password}
+                    onChange={handleForm}
+                    required
+                    disabled={false} 
+                />
+                <StyledInput 
+                    name="password"
+                    placeholder="confirme senha" 
+                    type="password"
+                    required
+                    disabled={false} 
+                />
+                <StyledButton type="submit" disabled={false} >Cadastrar</StyledButton>
             </StyledForm>
 
-            <StyledLink to="/signin">
+            <StyledLink to="/">
                 Já tem uma conta? Faça Login!
             </StyledLink>
-        </CONTAINER>
+        </Container>
     )
 }
 
-const CONTAINER = styled.div`
+const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;

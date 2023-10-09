@@ -1,20 +1,15 @@
-
-    
-    
 import styled from "styled-components"
 import ScreenWidthBars from "../components/ScreenWithBars"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import { UserContext } from "../contexts/UserContext"
 import apiServices from "../services/apiService"
 
-export default function HomePage() {
+export default function ManageServicesPage() {
     const [services, setServices] = useState([])
     const { user } = useContext(UserContext)
 
-    useEffect(handleServices, [])
-
-    function handleServices() {
-        apiServices.getServices(user.token)
+    function handleService() {
+        apiServices.getManageServices(user.token)
             .then(res => setServices(res.data))
             .catch(err => {
                 if (!user.token) {
@@ -28,8 +23,8 @@ export default function HomePage() {
     return (
         <ScreenWidthBars>
             <CreateServiceContainer>
-                <StyledTitle>Serviços disponíveis</StyledTitle>
-                {services.map(s => <ServiceCard key={s.id} id={s.id} services={s} getServices={handleServices} />)}
+                <StyledTitle>Gerencie seus Serviços</StyledTitle>
+                {services.map(s => <ServiceCardItem key={s._id} services={s} getManageServices={handleService} />)}
             </CreateServiceContainer>
         </ScreenWidthBars>
     )
@@ -42,16 +37,28 @@ export default function HomePage() {
     //             <CardContainer>
     //                 <img src="" />
     //                 <h3>blablabla</h3>
+    //                 <label>
+    //                     Disponível?
+    //                     <input type="checkbox" readOnly />
+    //                 </label>
     //             </CardContainer>
 
     //             <CardContainer>
     //                 <img src="" />
     //                 <h3>blablabla</h3>
+    //                 <label>
+    //                     Disponível?
+    //                     <input type="checkbox" readOnly />
+    //                 </label>
     //             </CardContainer>
 
     //             <CardContainer>
     //                 <img src="" />
     //                 <h3>blablabla</h3>
+    //                 <label>
+    //                     Disponível?
+    //                     <input type="checkbox" readOnly />
+    //                 </label>
     //             </CardContainer>
     //         </Container>
     //     </ScreenWidthBars>
@@ -72,7 +79,6 @@ const StyledTitle = styled.p`
     color: #126BA5;
     align-self: flex-start;
 `
-
 
 // const Container = styled.div`
 //     width: 100%;

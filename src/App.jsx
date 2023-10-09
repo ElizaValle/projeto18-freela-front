@@ -1,29 +1,29 @@
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import HomePage from './pages/HomePage'
+import AddServicePage from './pages/AddServicePage'
+import ManageServicesPage from './pages/ManageServicesPage'
 import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
-import HomePage from './pages/HomePage'
-import ServicePage from './pages/ServicePage'
-import AddServicePage from './pages/AddServicePage'
-import ManageServicePage from './pages/ManageServicePage'
-
+import UserProvider from './contexts/UserContext'
 
 function App() {
 
   return (
-    <>
-      <BrowserRouter>
+    <BrowserRouter>
+      <UserProvider>
         <Routes>
-          <Route path='/signin' exact element={<SignInPage />} />
-          <Route path='/signup' exact element={<SignUpPage />} />
-          <Route path='/' exact element={<HomePage />} />
-          <Route path='/service' exact element={<ServicePage />} />
-          <Route path='/add-service' exact element={<AddServicePage />} />
-          <Route path='/manage-service' exact element={<ManageServicePage />} />
+          <Route path="/" element={<SignInPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/add" element={<AddServicePage />} /> 
+          <Route path="/manage" element={<ManageServicesPage />} />
+                {/* <Route path="/service/:id" element={ServiceDetailsPage} />
+              
+              */}
         </Routes>
-      </BrowserRouter>
-      
-    </>
+      </UserProvider>
+    </BrowserRouter>
   )
 }
 

@@ -1,24 +1,62 @@
-import styled from "styled-components";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import styled from "styled-components"
+import { Link, useNavigate } from "react-router-dom"
+import { useContext, useState } from "react"
+import { UserContext } from "../contexts/UserContext"
+import apiAuth from "../services/apiAuth"
 
 export default function SignInPage() {
+    const [form, setForm] = useState({ email: "", password: "" })
+    const { setUser } = useContext(UserContext)
+    const navigate = useNavigate()
+
+    function handleForm(e) {
+        setForm({ ...form, [e.target.name]: e.target.value })
+    }
+
+    function handleSignIn(e) {
+        e.preventDefault()
+        
+        apiAuth.signIn(form)
+            .then(res => {
+                console.log(form)
+                const { id, name, token } = res.data 
+                setUser({ id, name, token })
+                localStorage.setItem("user", JSON.stringify({ id, name, token }))
+                navigate("/home")
+            })
+            .catch(err => alert(err.response))
+    }
+    
     return (
-        <CONTAINER>
-            <StyledForm>
-                <StyledInput placeholder="email" disabled={false} />
-                <StyledInput placeholder="senha" disabled={false} />
-                <StyledButton disabled={false} >Entrar</StyledButton>
+        <Container>
+            <StyledForm onSubmit={handleSignIn}>
+                <StyledInput
+                    name="email" 
+                    placeholder="email" 
+                    type="email"
+                    value={form.email}
+                    onChange={handleForm}
+                    required
+                    disabled={false} 
+                />
+                <StyledInput
+                    name="password" 
+                    placeholder="senha"
+                    value={form.password}
+                    onChange={handleForm}
+                    required 
+                    disabled={false} />
+                <StyledButton type="submit" disabled={false} >Entrar</StyledButton>
             </StyledForm>
 
             <StyledLink to="/signup">
                 Não tem uma conta ainda? Cadastre-se!
             </StyledLink>
-        </CONTAINER>
+        </Container>
     )
 }
 
-const CONTAINER = styled.div`
+const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
